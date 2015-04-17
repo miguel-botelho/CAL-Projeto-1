@@ -10,14 +10,23 @@
 
 #include<vector>
 #include "Locals.h"
+#include <sstream>
 
 class ReadMap{
 private:
 	vector<Locals*> interestPoints;
-	ifstream file;
+	vector<string> lines;
+	vector<int> attractionLines;
 public:
-	ReadMap(string); //filename?
+	ReadMap(); //filename?
+	bool loadFile(string filename);
 	Locals addInterestPoint(Locals ip); // return NULL if added, ip if false
+	vector<string> getLines();
+	vector<int> getAttractionLines();
+	bool loadInterestPoints();
+	pair<int,int> loadInterestPointCoord(int line);
+	vector<Locals*> getInterestPoints();
+	string getCoordWord(string text,int begin);
 
 
 

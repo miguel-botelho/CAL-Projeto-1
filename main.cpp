@@ -14,17 +14,15 @@
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"
 #include "rapidxml_print.hpp"
-#include <stdio.h>        // perror()
-#include <stdlib.h>        // ldiv()
 #include <time.h>        // clock_nanosleep()
-#include <unistd.h>
-#include <conio.h>
-#include <windows.h>
+
+
 
 using namespace std;
 using namespace rapidxml;
 
 int main(){
+	cout << "cenas";
 
 	clock_t begin, end;
 	double time_spent;
@@ -40,16 +38,17 @@ int main(){
 	cout <<"Duracão da execucao: " << time_spent<<endl;
 	int x = mapa.getLines().size();
 	int y = mapa.getAttractionLines().size();
-	for(int i = 0 ; i < mapa.getAttractionLines().size();i++){
-		cout << "Linha numero: "<< mapa.getAttractionLines().at(i)<<'\n';
-	}
 	cout << "Tamanho: "<< mapa.getInterestPoints().size()<<endl;
 	for(int i = 0; i < mapa.getInterestPoints().size();i++){
-		cout << mapa.getInterestPoints().at(i)->getName()<<'\n';
+		cout <<"Nome ponto de interesse: "<< mapa.getInterestPoints().at(i)->getName()<<'\n';
+		cout << "Latitude do ponto de interesse: " <<mapa.getInterestPoints().at(i)->getLatitude()<<'\n';
+		cout << "Longitude do ponto de interesse: " <<mapa.getInterestPoints().at(i)->getLongitude()<<'\n';
 	}
 	cout << "Numero de linhas: "<< x<<"Numero de atracaoes: "<<y<< endl;
 	cout <<"End file reading\n";
+	system("pause");
 	return 0;
+
 
 
 

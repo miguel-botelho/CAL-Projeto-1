@@ -17,3 +17,17 @@ Locals::Locals(string name,double latitude,double longitude){
 string Locals::getName(){
 	return name;
 }
+
+double Locals::getLatitude(){
+	return latitude;
+}
+double Locals::getLongitude(){
+	return longitude;
+}
+
+void Locals::setLatitude(double latitude){
+	this->latitude=latitude;
+}
+void Locals::setLongitude(double longitude){
+	this->longitude=longitude;
+}

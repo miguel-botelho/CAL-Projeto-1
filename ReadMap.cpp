@@ -7,6 +7,9 @@
 #include"ReadMap.h"
 #include <fstream>
 #include <stack>
+#include <string>
+#include<cmath>
+#include<iostream>
 
 ReadMap::ReadMap(){
 
@@ -39,7 +42,6 @@ bool ReadMap::loadFile(string filename){
 	return true;
 }
 
-
 vector<string> ReadMap::getLines(){
 	return lines;
 }
@@ -53,7 +55,6 @@ bool ReadMap::loadInterestPoints(){
 	for(int i = 0; i < attractionLines.size();i++ ){
 		int line_pos = attractionLines.at(i);
 		string name;
-		pair<int,int> coords = loadInterestPointCoord(line_pos);
 		while(cond){
 			int pos = lines.at(line_pos).find("name");
 			if(pos !=-1){ // encontra a palavra name
@@ -62,7 +63,9 @@ bool ReadMap::loadInterestPoints(){
 					char letter = lines.at(line_pos).at(pos);
 					if(letter == '"'){
 						cond = false;
+
 						break;
+
 					}
 					name+= letter;
 					pos++;
@@ -74,31 +77,82 @@ bool ReadMap::loadInterestPoints(){
 		cond = true;
 		interestPoints.push_back(new Locals(name,0,0));
 	}
+	for(int i = 0; i < attractionLines.size();i++){
+
+		pair<long,long> coords = loadInterestPointCoord(attractionLines.at(i));
+		interestPoints.at(i)->setLatitude(coords.first);
+		interestPoints.at(i)->setLongitude(coords.second);
+	}
 }
 
-pair<int,int> ReadMap:: loadInterestPointCoord(int line){
+pair<long,long> ReadMap:: loadInterestPointCoord(int line){
 
-	pair<int,int> coord;
+	pair<long,long> coord;
 	//primeiro = lat segund = lon
 	while(true){
-		int lat=lines.at(line).find("lat");
-		int lon =lines.at(line).find("lon");
+		long lat=lines.at(line).find("lat");
+		long lon =lines.at(line).find("lon");
+
+
 		if(lat !=-1 && lon!=-1 ){ //encontrou lat e long
+			lat+=3;
+			lon+=3;
 			string primeiro = getCoordWord(lines.at(line),lat);
 			string segundo = getCoordWord(lines.at(line),lon);
 			coord.first= stringToDouble(primeiro);
 			coord.second= stringToDouble(segundo);
+			return coord;
 		}
 
-
-
-
+		if(lines.at(line).find("way")!= -1){
+			line++;
+			int x = lines.at(line).find("ref");
+			if(x!=-1){
+				string id = getNodeID(lines.at(line),x);
+				coord = getCoordsInterestPoints(id);
+				return coord;
+			}
+		}
 		line--;
+	}
+}
+
+pair<double,double> ReadMap::getCoordsInterestPoints(string id){
+	pair<double,double> coords;
+	int line_pos = 0;
+	while(true){
+		if(lines.at(line_pos).find(id)!=-1){
+			int lat_pos,lon_pos;
+			lat_pos = lines.at(line_pos).find("lat");
+			lat_pos+=3;
+			lon_pos = lines.at(line_pos).find("lon");
+			lon_pos+=3;
+
+			string primeiro = getCoordWord(lines.at(line_pos),lat_pos);
+			string segundo = getCoordWord(lines.at(line_pos),lon_pos);
+			coords.first= stringToDouble(primeiro);
+			coords.second= stringToDouble(segundo);
+			return coords;
+		}
+		line_pos++;
 	}
 }
 
 vector<Locals*> ReadMap::getInterestPoints(){
 	return interestPoints;
+}
+
+string ReadMap:: getNodeID(string text,int begin){
+	begin+=5;
+		string result;
+		while(true){
+			if(text.at(begin)=='"')
+				break;
+			result+= text.at(begin);
+			begin++;
+		}
+		return result;
+
 }
 
 string ReadMap::getCoordWord(string text,int begin){
@@ -113,7 +167,16 @@ string ReadMap::getCoordWord(string text,int begin){
 	return result;
 }
 
-long double stringToDouble(string d) {
+long ReadMap::stoi(string num){
+	long res=0;
+	for(int i = 0; i < num.length();i++){
+		res+= (num.at(i)-'0')*pow(10,num.length()-1-i);
+	}
+	return res;
+
+}
+
+long double ReadMap::stringToDouble(string d) {
     long double parteDecimal = 0;
     int parteInteira = 0;
     int contador = 0;
@@ -150,6 +213,3 @@ long double stringToDouble(string d) {
 
     return ret;
 }
-
-
-

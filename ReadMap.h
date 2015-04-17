@@ -24,9 +24,13 @@ public:
 	vector<string> getLines();
 	vector<int> getAttractionLines();
 	bool loadInterestPoints();
-	pair<int,int> loadInterestPointCoord(int line);
+	pair<long,long> loadInterestPointCoord(int line);
 	vector<Locals*> getInterestPoints();
 	string getCoordWord(string text,int begin);
+	string getNodeID(string text,int begin);
+	long double stringToDouble(string d);
+	long stoi(string num);
+	pair<double,double> getCoordsInterestPoints(string id);
 
 
 
@@ -34,6 +38,8 @@ public:
 
 
 };
+
+
 
 
 

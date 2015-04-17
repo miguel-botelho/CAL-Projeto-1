@@ -86,8 +86,13 @@ pair<int,int> ReadMap:: loadInterestPointCoord(int line){
 		if(lat !=-1 && lon!=-1 ){ //encontrou lat e long
 			string primeiro = getCoordWord(lines.at(line),lat);
 			string segundo = getCoordWord(lines.at(line),lon);
-			coord.first=
+			coord.first= stringToDouble(primeiro);
+			coord.second= stringToDouble(segundo);
 		}
+
+
+
+
 		line--;
 	}
 }

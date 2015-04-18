@@ -23,7 +23,7 @@ public:
 	Locals addInterestPoint(Locals ip); // return NULL if added, ip if false
 	vector<string> getLines();
 	vector<int> getAttractionLines();
-	bool loadInterestPointsName();
+	bool loadInterestPoints();
 	pair<double,double> loadInterestPointCoord(int line);
 	vector<Locals*> getInterestPoints();
 	string getCoordWord(string text,int begin);

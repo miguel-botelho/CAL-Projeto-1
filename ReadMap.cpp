@@ -39,7 +39,7 @@ bool ReadMap::loadFile(string filename){
 		line_pos++;
 	}
 	file.close();
-	loadInterestPointsName();
+	loadInterestPoints();
 	return true;
 }
 
@@ -51,12 +51,13 @@ vector<int> ReadMap::getAttractionLines(){
 	return attractionLines;
 }
 
-bool ReadMap::loadInterestPointsName(){
+
+bool ReadMap::loadInterestPoints(){
 	bool cond = true;
 	for(int i = 0; i < attractionLines.size();i++ ){
 		int line_pos = attractionLines.at(i);
 		string name;
-
+		pair<double,double> coords = loadInterestPointCoord(line_pos);
 		while(cond){
 			int pos = lines.at(line_pos).find("name");
 			if(pos !=-1){ // encontra a palavra name
@@ -77,7 +78,7 @@ bool ReadMap::loadInterestPointsName(){
 			line_pos--;
 		}
 		cond = true;
-		interestPoints.push_back(new Locals(name,0,0));
+		interestPoints.push_back(new Locals(name,coords.first,coords.second));
 	}
 
 }
@@ -85,7 +86,6 @@ bool ReadMap::loadInterestPointsName(){
 
 pair<double,double> ReadMap:: loadInterestPointCoord(int line){
 	int linha = line;
-	cout << "Entrou na func"<<endl;
 	pair<double,double> coord;
 	//primeiro = lat segund = lon
 	while(true){
@@ -107,13 +107,12 @@ pair<double,double> ReadMap:: loadInterestPointCoord(int line){
 			return coord;
 		}
 
-		int find_way = lines.at(linha).find("way");
-		if(find_way!= -1){
+		int find_way = lines.at(linha).find("<way");
+		if(find_way != -1){
 			linha++;
 			int x = lines.at(linha).find("ref");
 			if(x!=-1){
 				string id = getNodeID(lines.at(linha),x);
-				cout << "NODE: "<< id<<endl;
 				coord = getCoordsInterestPoints(id);
 				return coord;
 			}

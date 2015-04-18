@@ -58,29 +58,26 @@ bool ReadMap::loadInterestPoints(){
 		int line_pos = attractionLines.at(i);
 		string name;
 		pair<double,double> coords = loadInterestPointCoord(line_pos);
-		while(cond){
+		while(true){
 			int pos = lines.at(line_pos).find("name");
 			if(pos !=-1){ // encontra a palavra name
-				pos+=9; //somar a tamanho de NAME +
-				while(true){
-					char letter = lines.at(line_pos).at(pos);
-					if(letter == '"'){
-						cond = false;
-
-						break;
-
-					}
-					name+= letter;
-					pos++;
-
-				}
+				name = getNameWord(lines.at(line_pos),pos);
+				break;
 			}
 			line_pos--;
 		}
-		cond = true;
-		interestPoints.push_back(new Locals(name,coords.first,coords.second));
-	}
 
+		if(!nameFind(name))
+			interestPoints.push_back(new Locals(name,coords.first,coords.second));
+	}
+}
+
+bool ReadMap::nameFind(string name){
+	for(int i = 0; i < interestPoints.size();i++){
+		if(name == interestPoints.at(i)->getName())
+			return true;
+	}
+	return false;
 }
 
 
@@ -152,14 +149,14 @@ vector<Locals*> ReadMap::getInterestPoints(){
 
 string ReadMap:: getNodeID(string text,int begin){
 	begin+=5;
-		string result;
-		while(true){
-			if(text.at(begin)=='"')
-				break;
-			result+= text.at(begin);
-			begin++;
-		}
-		return result;
+	string result;
+	while(true){
+		if(text.at(begin)=='"')
+			break;
+		result+= text.at(begin);
+		begin++;
+	}
+	return result;
 
 }
 
@@ -175,12 +172,17 @@ string ReadMap::getCoordWord(string text,int begin){
 	return result;
 }
 
-long ReadMap::stoi(string num){
-	long res=0;
-	for(int i = 0; i < num.length();i++){
-		res+= (num.at(i)-'0')*pow(10,num.length()-1-i);
+
+string ReadMap::getNameWord(string text,int begin){
+	begin+=9;
+	string result;
+	while(true){
+		if(text.at(begin)=='"')
+			break;
+		result+= text.at(begin);
+		begin++;
 	}
-	return res;
+	return result;
 
 }
 

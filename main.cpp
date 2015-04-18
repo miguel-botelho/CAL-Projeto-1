@@ -31,13 +31,11 @@ int main(){
 	ReadMap mapa;
 	begin = clock();
 	mapa.loadFile("mapa.txt");
-	mapa.loadInterestPoints();
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
 	cout <<"Duracão da execucao: " << time_spent<<endl;
-
-
+	cout << "Linhas totais: "<< mapa.getAttractionLines().size()<<endl;
 	cout << "Tamanho: "<< mapa.getInterestPoints().size()<<endl;
 
 	for(int i = 0; i < mapa.getInterestPoints().size();i++){

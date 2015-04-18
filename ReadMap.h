@@ -29,8 +29,9 @@ public:
 	string getCoordWord(string text,int begin);
 	string getNodeID(string text,int begin);
 	long double stringToDouble(string d);
-	long stoi(string num);
+	bool nameFind(string name);
 	pair<double,double> getCoordsInterestPoints(string id);
+	string getNameWord(string text,int begin);
 
 
 

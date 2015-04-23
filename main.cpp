@@ -22,12 +22,10 @@ using namespace std;
 using namespace rapidxml;
 
 int main(){
-	cout << "cenas";
-
 	clock_t begin, end;
 	double time_spent;
 
-	cout << "File begin"<<'\n';
+	cout << "File begin"<< endl;
 	ReadMap mapa;
 	begin = clock();
 	mapa.loadFile("mapa.txt");
@@ -38,7 +36,7 @@ int main(){
 	cout << "Linhas totais: "<< mapa.getAttractionLines().size()<<endl;
 	cout << "Tamanho: "<< mapa.getInterestPoints().size()<<endl;
 
-	for(int i = 0; i < mapa.getInterestPoints().size();i++){
+	for(unsigned int i = 0; i < mapa.getInterestPoints().size();i++){
 		cout <<"Nome ponto de interesse: "<< mapa.getInterestPoints().at(i)->getName()<<'\n';
 		cout << "Latitude do ponto de interesse: " <<setprecision(10)<<mapa.getInterestPoints().at(i)->getLatitude()<<'\n';
 		cout << "Longitude do ponto de interesse: " <<setprecision(10)<<mapa.getInterestPoints().at(i)->getLongitude()<<'\n';

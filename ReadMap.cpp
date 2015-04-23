@@ -53,8 +53,7 @@ vector<int> ReadMap::getAttractionLines(){
 
 
 bool ReadMap::loadInterestPoints(){
-	bool cond = true;
-	for(int i = 0; i < attractionLines.size();i++ ){
+	for(unsigned int i = 0; i < attractionLines.size();i++ ){
 		int line_pos = attractionLines.at(i);
 		string name;
 		pair<double,double> coords = loadInterestPointCoord(line_pos);
@@ -70,10 +69,11 @@ bool ReadMap::loadInterestPoints(){
 		if(!nameFind(name))
 			interestPoints.push_back(new Locals(name,coords.first,coords.second));
 	}
+	return true;
 }
 
 bool ReadMap::nameFind(string name){
-	for(int i = 0; i < interestPoints.size();i++){
+	for(unsigned int i = 0; i < interestPoints.size();i++){
 		if(name == interestPoints.at(i)->getName())
 			return true;
 	}
